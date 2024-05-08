@@ -1,0 +1,131 @@
+/**
+ * 
+ */
+package Presentacion.Vista.Academia.Asignatura.GUIListarAsignaturas;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.util.Collection;
+
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
+import Negocio.Academia.Asignaturas.TAsignaturas;
+import Negocio.Academia.Asignaturas.TObligatoria;
+import Negocio.Academia.Asignaturas.TOptativa;
+import Presentacion.IGUI.IGUI;
+import Presentacion.ApplicationController.Context;
+import Presentacion.Evento.Evento;
+
+public class GUIListarAsignaturas extends JFrame implements IGUI {
+
+	private static final long serialVersionUID = 1L;
+
+	private DefaultTableModel _dataTableModel;
+	private String[] headers = { "ID Asignatura", "Nombre", "Activo", "Itinerario", "Nivel" };
+	private Collection<TAsignaturas> listaAsig;
+	JPanel panelPrincipal;
+
+	public GUIListarAsignaturas() {
+		super("LISTAR ASIGNATURAS");
+		initGUI();
+		setLocationRelativeTo(null);
+	}
+
+	public void initGUI() {
+		panelPrincipal = new JPanel(new BorderLayout());
+		add(panelPrincipal, BorderLayout.CENTER);
+		JPanel listaPanel = new JPanel(new BorderLayout());
+		panelPrincipal.add(listaPanel, BorderLayout.CENTER);
+		
+
+		try {
+
+			TitledBorder borde = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 0)),
+					"LISTA DE ASIGNATURAS");
+			listaPanel.setBorder(borde);
+
+			_dataTableModel = new DefaultTableModel() {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
+			_dataTableModel.setColumnIdentifiers(headers);
+			
+
+			JTable table = new JTable(_dataTableModel);
+			table.getTableHeader().setReorderingAllowed(false);
+			table.setPreferredScrollableViewportSize(new Dimension(675, 200));
+			JScrollPane tableScroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+					JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			tableScroll.setPreferredSize(new Dimension(tableScroll.getPreferredSize().width, 375));
+			JPanel ult = new JPanel(new BorderLayout());
+			ult.add(tableScroll, BorderLayout.CENTER);
+			listaPanel.add(ult, BorderLayout.CENTER);
+			
+			listaPanel.setVisible(true);
+
+		} catch (Exception e) {
+			setVisible(false);
+			e.printStackTrace();
+		}
+
+		this.setResizable(false);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setBounds(450, 450, 700, 450);
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see IGUI#actualizar(Context context)
+	 * @generated "UML a Java
+	 *            (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	 */
+	@SuppressWarnings("unchecked")
+	public void actualizar(Context context) {
+		if(context.getEvento()==Evento.ListarAsignaturas_OK) {
+			int n = 0;
+			listaAsig = (Collection<TAsignaturas>) context.getDato();
+			if (listaAsig != null) {
+				_dataTableModel.setNumRows(listaAsig.size());
+				for (TAsignaturas p : listaAsig) {
+
+					_dataTableModel.setValueAt(p.getID(), n, 0);
+					_dataTableModel.setValueAt(p.getNombre(), n, 1);
+					_dataTableModel.setValueAt(p.getActivo(), n, 2);
+
+					if(p instanceof TObligatoria){
+						_dataTableModel.setValueAt(((TObligatoria) p).getItinerario(), n, 3);
+						_dataTableModel.setValueAt("-", n, 4);
+
+					}
+					else if(p instanceof TOptativa){
+						_dataTableModel.setValueAt("-", n, 3);
+						_dataTableModel.setValueAt(((TOptativa) p).getNivel(), n, 4);
+
+					}
+					n++;
+				}
+			}
+			panelPrincipal.revalidate();
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, context.getDato(), "", JOptionPane.ERROR_MESSAGE);
+			setVisible(false);
+		}
+	}
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="tests"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path=".apt_generated">
+		<attributes>
+			<attribute name="optional" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-j-8.0.32.jar"/>
+	<classpathentry kind="lib" path="AbsoluteLayout-RELEASE190.jar"/>
+	<classpathentry kind="lib" path="lib/eclipselink.jar"/>
+	<classpathentry kind="lib" path="lib/javax.persistence_2.1.0.v201304241213.jar"/>
+	<classpathentry kind="lib" path="lib/javax.persistence.source_2.1.0.v201304241213.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.persistence.jpa.modelgen_2.5.1.v20130918-f2b9fc5.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.persistence.jpa.modelgen.source_2.5.1.v20130918-f2b9fc5.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.persistence.jpars_2.5.1.v20130918-f2b9fc5.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.persistence.jpars.source_2.5.1.v20130918-f2b9fc5.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>
